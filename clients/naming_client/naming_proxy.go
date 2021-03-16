@@ -169,11 +169,12 @@ func (proxy *NamingProxy) ServerHealthy() bool {
 func (proxy *NamingProxy) QueryList(serviceName string, clusters string, udpPort int, healthyOnly bool) (string, error) {
 	param := make(map[string]string)
 	param["namespaceId"] = proxy.clientConfig.NamespaceId
-	param["serviceName"] = serviceName
+	param["serviceName"] = proxy.clientConfig.AppName
+	param["appName"] = serviceName
 	param["clusters"] = clusters
 	param["udpPort"] = strconv.Itoa(udpPort)
 	param["healthyOnly"] = strconv.FormatBool(healthyOnly)
-	param["clientIp"] = util.LocalIP()
+	param["clientIP"] = util.LocalIP()
 	api := constant.SERVICE_PATH + "/list"
 	return proxy.nacosServer.ReqApi(api, param, http.MethodGet)
 }
